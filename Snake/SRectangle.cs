@@ -18,8 +18,8 @@ namespace Snake
         {
             X = x;
             Y = y;
-            Rows1 = row;
-            Cols1 = col;
+            Rows = row;
+            Cols = col;
         }
 
         public int Rows1 { get => Rows; set => Rows = value; }
@@ -27,16 +27,16 @@ namespace Snake
 
         public void  Draw(Graphics g)
         {
-            Brush RecColor = Brushes.AliceBlue;
+            Brush RecColor = Brushes.Chocolate;
 
+            Image BlackHole = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\BlackHole.png");
+            PointF BlackHolep = new PointF(Rows1 * Settings.Width, Cols * Settings.Height);
+            //canvas.DrawImage(Burger, BlackHolep);
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    g.FillEllipse(RecColor, new Rectangle(
-                    X + i * Settings.Width,
-                    Y + j * Settings.Height,
-                    Settings.Width, Settings.Height));
+                    g.DrawImage(BlackHole, new PointF((X + i) * Settings.Width, (Y + j) * Settings.Height));
                 }
             }
 
