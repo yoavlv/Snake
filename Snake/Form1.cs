@@ -197,7 +197,7 @@ namespace Snake
             Graphics canvas = e.Graphics;
             
             Brush SnakeColor;
-            Brush WallColor;
+            //Brush WallColor;
             //Brush RecColor;
             
             rec.Draw(canvas);

@@ -23,10 +23,13 @@ namespace Snake
         public void DrawCircle(Graphics g)
         {
             //SolidBrush br = new SolidBrush(Color.BlueViolet);
-            Brush br = Brushes.BlueViolet;
+            //Brush br = Brushes.BlueViolet;
 
-            g.FillEllipse(br, X * Settings.Width , Y * Settings.Height, Settings.Width * Radius, Settings.Height * Radius);
-
+            //g.FillEllipse(br, X * Settings.Width , Y * Settings.Height, Settings.Width * Radius, Settings.Height * Radius);
+            Image Bon = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\bon.jpg");
+            PointF pp = new PointF(X * Settings.Width,
+            Y * Settings.Height);
+            g.DrawImage(Bon, pp);
         }
     }
 }
