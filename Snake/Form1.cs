@@ -13,10 +13,11 @@ namespace Snake
     public partial class Form1 : Form
 
     {
-        private List<Circle> Wall = new List<Circle>();
+        private List<Point> Wall = new List<Point>();
 
-        private List<Circle> Snake = new List<Circle>();
-        private Circle food = new Circle();
+        private List<Point> Snake = new List<Point>();
+        private Point food = new Point();
+        private SRectangle rec = new SRectangle();
 
         int maxWidht;
         int maxHeight;
@@ -79,25 +80,7 @@ namespace Snake
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
-            // setting the directions
-
-            if (goLeft)
-            {
-                Settings.directions = "left";
-            }
-            if (goRight)
-            {
-                Settings.directions = "right";
-            }
-            if (goDown)
-            {
-                Settings.directions = "down";
-            }
-            if (goUp)
-            {
-                Settings.directions = "up";
-            }
-            // end of directions
+            Directions();
 
             for (int i = Snake.Count - 1; i >= 0; i--)
             {
@@ -181,11 +164,12 @@ namespace Snake
 
         private void UpdatePictureBoxGrafics(object sender, PaintEventArgs e)
         {
-
             Graphics canvas = e.Graphics;
+            
             Brush SnakeColor;
             Brush WallColor;
-
+            Brush RecColor;
+            rec.Draw(canvas);
             for (int i = 0; i < Snake.Count; i++)
             {
 
@@ -204,6 +188,22 @@ namespace Snake
                     Settings.Width, Settings.Height));
             }
 
+            /* 
+            RecColor = Brushes.AliceBlue;
+
+            for (int i = 0; i < rec.Rows1; i++)
+            {
+                for (int j = 0; j < rec.Cols1; j++)
+                {
+                   canvas.FillEllipse(RecColor, new Rectangle(
+                   rec.X+i * Settings.Width,
+                   rec.Y+ j * Settings.Height,
+                   Settings.Width, Settings.Height));
+                }
+            }
+            */
+
+
             for (int i = 0; i < Wall.Count; i++)
             {
 
@@ -217,6 +217,9 @@ namespace Snake
                 Settings.Width, Settings.Height));
             }
 
+  
+
+       
 
             canvas.FillEllipse(Brushes.Red, new Rectangle(
             food.X * Settings.Width,
@@ -237,18 +240,18 @@ namespace Snake
 
             score = 0;
             ScoreL.Text = "Score: " + score;
-            Circle head = new Circle { X = 10, Y = 5 }; // placing the snake in the middel;
+            Point head = new Point { X = 10, Y = 5 }; // placing the snake in the middel;
             Snake.Add(head); // adding the head of the snake in the start of the list;
 
             for (int i=0; i< 10; i++) // inishalize the size of the body of the snake 
             {
-                Circle body = new Circle();
+                Point body = new Point();
                 Snake.Add(body);
             }
             // create new food point 
-            food = new Circle { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
+            food = new Point { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
             CreateWall();
-
+            CreateSRectangle();
 
 
 
@@ -256,15 +259,21 @@ namespace Snake
        
 
         }
+        private void CreateSRectangle()
+        {
+            rec = new SRectangle(rand.Next(2, maxWidht), rand.Next(2, maxHeight), 3,4 );
+    
+        }
+
 
         // Create new Wall
         private void CreateWall()
         {
             int flag = 0;
-            Circle first_brick = new Circle { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
+            Point first_brick = new Point { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
             do
             {
-                first_brick = new Circle { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
+                first_brick = new Point { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
 
                 for (int i = 0; i < Snake.Count; i++)
                 {
@@ -287,7 +296,7 @@ namespace Snake
             int j = 1;
             for (int i = 1; i < 4; i++, j++)
             {
-                Circle brick = new Circle { X = first_brick.X + j, Y = first_brick.Y };
+                Point brick = new Point { X = first_brick.X + j, Y = first_brick.Y };
                 Wall.Add(brick);
             }
 
@@ -296,12 +305,13 @@ namespace Snake
         {
             score += 1;
             ScoreL.Text = "Score: " + score;
-            Circle body = new Circle();
+            Point body = new Point();
             Snake.Add(body);
 
-            food = new Circle { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
+            food = new Point { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
 
             CreateWall();
+            CreateSRectangle();
   
 
         }
@@ -318,6 +328,25 @@ namespace Snake
             }
 
         }
-      
+        private void Directions()
+        {
+            if (goLeft)
+            {
+                Settings.directions = "left";
+            }
+            if (goRight)
+            {
+                Settings.directions = "right";
+            }
+            if (goDown)
+            {
+                Settings.directions = "down";
+            }
+            if (goUp)
+            {
+                Settings.directions = "up";
+            }
+        }
+
     }
 }
