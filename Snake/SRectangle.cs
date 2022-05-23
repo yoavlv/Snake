@@ -29,16 +29,16 @@ namespace Snake
         {
             Brush RecColor = Brushes.Chocolate;
 
-            Image BlackHole = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\BlackHole.png");
+            Image BlackHole = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\BlackHole2.png");
             PointF BlackHolep = new PointF(Rows1 * Settings.Width, Cols * Settings.Height);
-            //canvas.DrawImage(Burger, BlackHolep);
-            for (int i = 0; i < Rows; i++)
+            if (Rows > 0 && Cols > 0)
             {
-                for (int j = 0; j < Cols; j++)
-                {
-                    g.DrawImage(BlackHole, new PointF((X + i) * Settings.Width, (Y + j) * Settings.Height));
-                }
+                Bitmap BlachHoleB = new Bitmap(BlackHole, new Size(16 * Rows, 16 * Cols));
+                g.DrawImage(BlachHoleB, new PointF(X * Settings.Width, Y * Settings.Height));
+
             }
+
+       
 
         }
 

@@ -26,7 +26,7 @@ namespace Snake
             //Brush br = Brushes.BlueViolet;
 
             //g.FillEllipse(br, X * Settings.Width , Y * Settings.Height, Settings.Width * Radius, Settings.Height * Radius);
-            Image Bon = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\bon.jpg");
+            Image Bon = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\bon.png");
             PointF pp = new PointF(X * Settings.Width,
             Y * Settings.Height);
             g.DrawImage(Bon, pp);

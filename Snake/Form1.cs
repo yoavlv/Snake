@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Snake
 {
@@ -22,14 +23,54 @@ namespace Snake
         int maxHeight;
         int score;
         int hightScore;
+        string Name;
         Random rand = new Random();
         bool goLeft, goRight, goDown, goUp;
+        //private static string path = @"C:\Users\yoavl\source\repos\Snake\Snake\Result.txt";
 
         public Form1()
         {
             InitializeComponent();
             new Settings();
+            FindHighScroe();
         }
+
+        private void WriteNewScroe()
+        {
+            string path = @"C:\Users\yoavl\source\repos\Snake\Snake\Result.txt";
+            Name = NameB.Text;
+            string NewScore = ScoreP.Text;
+            {
+                if (NewScore != "")
+
+                    if (Name == "")
+                        Name = "Guest";
+
+                File.AppendAllText(path, Name + "\n" + NewScore + "\n");
+            }
+    
+
+        }
+        private void FindHighScroe()
+        {
+            string path = @"C:\Users\yoavl\source\repos\Snake\Snake\Result.txt";
+            String[] lines = File.ReadAllLines(path);
+            long max = 0;
+            long score = 0;
+            foreach (String line in lines)
+            {
+              
+                if (Int64.TryParse(line, out score))
+                {
+                    if (score > max)
+                        max = score;
+                }
+            }
+            HighEver.Text = "" + max;
+            File.Create(path).Close();
+
+        }
+
 
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
@@ -73,6 +114,7 @@ namespace Snake
 
         private void StartGame(object sender, EventArgs e)
         {
+            NameB.Enabled = false;
             ReastartGame();
 
         }
@@ -141,7 +183,7 @@ namespace Snake
 
                     }
                     bool check_1 = WallAndSnake(Snake[i].X , Snake[i].Y);
-                    bool check_2 = RecAndSnake(Snake[i].X, Snake[i].Y);
+                    bool check_2 = RecAndSnakeOrFood(Snake[i].X, Snake[i].Y);
                     if (check_1 == true || check_2 == true)
                     {
                         GameOver();
@@ -173,7 +215,7 @@ namespace Snake
             return false;
         }
 
-        private bool RecAndSnake(int Xpoint, int Ypoint)
+        private bool RecAndSnakeOrFood(int Xpoint, int Ypoint)
         {
             for (int t = 0; t < rec.Rows1; t++)
             {
@@ -191,14 +233,13 @@ namespace Snake
             }
             return false;
         }
+   
 
         private void UpdatePictureBoxGrafics(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
             
             Brush SnakeColor;
-            //Brush WallColor;
-            //Brush RecColor;
             
             rec.Draw(canvas);
             Bonus.DrawCircle(canvas);
@@ -221,34 +262,15 @@ namespace Snake
                     Settings.Width, Settings.Height));
             }
 
-            /*
-            RecColor = Brushes.AliceBlue;
-            for (int i = 0; i < rec.Rows1; i++)
-            {
-                for (int j = 0; j < rec.Cols1; j++)
-                {
-                   canvas.FillEllipse(RecColor, new Rectangle(
-                   (rec.X+i) * Settings.Width,
-                   (rec.Y+ j) * Settings.Height,
-                   Settings.Width, Settings.Height));
-                }
-            }
-            */
 
 
             for (int i = 0; i < Wall.Count; i++)
             {
-                Image fence = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\ff.png");
+                Image fence = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\fance.png");
                 PointF pp = new PointF(Wall[i].X * Settings.Width,
                 Wall[i].Y * Settings.Height);
                 canvas.DrawImage(fence, pp);
 
-                /*
-                canvas.FillEllipse(WallColor, new Rectangle(
-                Wall[i].X * Settings.Width,
-                Wall[i].Y * Settings.Height,
-                Settings.Width, Settings.Height));
-                */
             }
 
 
@@ -259,10 +281,6 @@ namespace Snake
             food.Y * Settings.Height);
             canvas.DrawImage(Burger, BugerP);
 
-            //canvas.FillEllipse(Brushes.Red, new Rectangle(
-            //food.X * Settings.Width,
-            //food.Y * Settings.Height,
-            //Settings.Width, Settings.Height));
 
         }
 
@@ -279,7 +297,7 @@ namespace Snake
 
 
             score = 0;
-            ScoreL.Text = "Score: " + score;
+            ScoreP.Text = ""+ score;
             Point head = new Point { X = 10, Y = 5 }; // placing the snake in the middel;
             Snake.Add(head); // adding the head of the snake in the start of the list;
 
@@ -304,7 +322,7 @@ namespace Snake
             int x = rand.Next(2, maxWidht);
             int y = rand.Next(2, maxHeight);
 
-            while (RecAndSnake(x,y) != false || WallAndSnake(x,y) != false)
+            while (RecAndSnakeOrFood(x,y) != false || WallAndSnake(x,y) != false)
             {
                 x = rand.Next(2, maxWidht);
                 y = rand.Next(2, maxHeight);
@@ -316,6 +334,7 @@ namespace Snake
         }
         private void CreateSRectangle()
         {
+
             rec = new SRectangle { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight), Rows1 = 3, Cols1 = 3 } ;
     
         }
@@ -337,7 +356,7 @@ namespace Snake
         private void EatFood()
         {
             score += 1;
-            ScoreL.Text = "Score: " + score;
+            ScoreP.Text = "" + score;
             Point body = new Point();
             Snake.Add(body);
 
@@ -345,8 +364,12 @@ namespace Snake
             if (score % 2 == 0)
             {
                 CreateWall();
+            }
+            if (score % 4 == 0)
+            {
                 CreateBonus();
             }
+
             if (score % 2 == 0)
             {
                 rec.X = rand.Next(2, maxWidht);
@@ -373,12 +396,17 @@ namespace Snake
 
         }
 
+        private void NameB_TextChanged(object sender, EventArgs e)
+        {
+        
+        }
+
         private void CreateBonus()
         {
             int x = rand.Next(2, maxWidht);
             int y = rand.Next(2, maxHeight);
 
-            while (RecAndSnake(x, y) != false || WallAndSnake(x, y) != false)
+            while (RecAndSnakeOrFood(x, y) != false || WallAndSnake(x, y) != false)
             {
                 x = rand.Next(2, maxWidht);
                 y = rand.Next(2, maxHeight);
@@ -390,10 +418,13 @@ namespace Snake
         {
             GameTimer.Stop();
             StartB.Enabled = true;
+            NameB.Enabled = false;
+            WriteNewScroe();
+            FindHighScroe();
             if (score > hightScore)
             {
                 hightScore = score;
-                HighScroeL.Text = "Score: " + hightScore;
+                ScoreHP.Text = ""+ hightScore;
 
 
             }
