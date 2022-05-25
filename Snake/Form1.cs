@@ -115,6 +115,14 @@ namespace Snake
         private void StartGame(object sender, EventArgs e)
         {
             NameB.Enabled = false;
+            if (NameB.Text != "")
+            {
+                NameL.Text = "Hello " + NameB.Text;
+            }
+            else
+                NameL.Text = "Hello Guest";
+
+            
             ReastartGame();
 
         }
@@ -226,8 +234,6 @@ namespace Snake
                         return true;
 
                     }
-
-
                 }
 
             }
@@ -306,9 +312,9 @@ namespace Snake
                 Point body = new Point();
                 Snake.Add(body);
             }
-            // create new food point 
             CreateWall();
             CreateSRectangle();
+            // create new food point 
             CreateFood();
 
 
@@ -365,7 +371,7 @@ namespace Snake
             {
                 CreateWall();
             }
-            if (score % 4 == 0)
+            if (score % 4 == 0 )
             {
                 CreateBonus();
             }
@@ -389,7 +395,7 @@ namespace Snake
             rec.Cols1--;
             rec.Rows1--;
 
-
+            // Disappear the bounus point
             Bonus.X = 500;
             Bonus.Y = 500;
       
@@ -398,7 +404,10 @@ namespace Snake
 
         private void NameB_TextChanged(object sender, EventArgs e)
         {
-        
+            Name = NameB.Text;
+            if (NameB.Text == "")
+                Name = "Guest";
+            
         }
 
         private void CreateBonus()
@@ -411,7 +420,7 @@ namespace Snake
                 x = rand.Next(2, maxWidht);
                 y = rand.Next(2, maxHeight);
             }
-            Bonus = new Circle(rand.Next(2, maxWidht), rand.Next(2, maxHeight),1); // defalut radius = 2 
+            Bonus = new Circle(x,y,1); // defalut radius = 2 
 
         }
         private void GameOver()
