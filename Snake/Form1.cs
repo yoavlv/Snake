@@ -16,14 +16,14 @@ namespace Snake
     {
         private List<Point> Wall = new List<Point>();
         private List<Point> Snake = new List<Point>();
-        private Point food = new Point();
+        private Circle food = new Circle();
         private SRectangle rec = new SRectangle();
-        private Circle Bonus = new Circle();
+        private Bonus bonus = new Bonus();
         int maxWidht;
         int maxHeight;
         int score;
         int hightScore;
-        string Name;
+        string Name ;
         Random rand = new Random();
         bool goLeft, goRight, goDown, goUp;
         //private static string path = @"C:\Users\yoavl\source\repos\Snake\Snake\Result.txt";
@@ -174,7 +174,7 @@ namespace Snake
                     {
                         EatFood();
                     }
-                    if (Snake[i].X == Bonus.X && Snake[i].Y == Bonus.Y)
+                    if (Snake[i].X == bonus.X && Snake[i].Y == bonus.Y)
                     {
                         EatBonus();
                     }
@@ -248,7 +248,9 @@ namespace Snake
             Brush SnakeColor;
             
             rec.Draw(canvas);
-            Bonus.DrawCircle(canvas);
+            bonus.Draw(canvas);
+            food.Draw(canvas);
+
             for (int i = 0; i < Snake.Count; i++)
             {
 
@@ -279,15 +281,6 @@ namespace Snake
 
             }
 
-
-
-
-            Image Burger = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\Burger.png");
-            PointF BugerP = new PointF(food.X * Settings.Width,
-            food.Y * Settings.Height);
-            canvas.DrawImage(Burger, BugerP);
-
-
         }
 
         private void ReastartGame()
@@ -304,12 +297,12 @@ namespace Snake
 
             score = 0;
             ScoreP.Text = ""+ score;
-            Point head = new Point { X = 10, Y = 5 }; // placing the snake in the middel;
+            Circle head = new Circle(10, 5); // placing the snake in the middel;
             Snake.Add(head); // adding the head of the snake in the start of the list;
 
             for (int i=0; i< 10; i++) // inishalize the size of the body of the snake 
             {
-                Point body = new Point();
+                Circle body = new Circle();
                 Snake.Add(body);
             }
             CreateWall();
@@ -334,7 +327,7 @@ namespace Snake
                 y = rand.Next(2, maxHeight);
             }
 
-            food = new Point { X = x, Y = y };
+            food = new Circle { X = x, Y = y };
             
 
         }
@@ -349,12 +342,12 @@ namespace Snake
         // Create new Wall
         private void CreateWall()
         {
-            Point first_brick = new Point { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
+            Circle first_brick = new Circle { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
             Wall.Add(first_brick);
             int j = 1;
             for (int i = 1; i < 4; i++, j++)
             {
-                Point brick = new Point { X = first_brick.X + j, Y = first_brick.Y };
+                Point brick = new Circle { X = first_brick.X + j, Y = first_brick.Y };
                 Wall.Add(brick);
             }
 
@@ -363,10 +356,10 @@ namespace Snake
         {
             score += 1;
             ScoreP.Text = "" + score;
-            Point body = new Point();
+            Circle body = new Circle(500,500);
             Snake.Add(body);
 
-            food = new Point { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
+            food = new Circle { X = rand.Next(2, maxWidht), Y = rand.Next(2, maxHeight) };
             if (score % 2 == 0)
             {
                 CreateWall();
@@ -396,8 +389,8 @@ namespace Snake
             rec.Rows1--;
 
             // Disappear the bounus point
-            Bonus.X = 500;
-            Bonus.Y = 500;
+            bonus.X = 500;
+            bonus.Y = 500;
       
 
         }
@@ -420,7 +413,7 @@ namespace Snake
                 x = rand.Next(2, maxWidht);
                 y = rand.Next(2, maxHeight);
             }
-            Bonus = new Circle(x,y,1); // defalut radius = 2 
+            bonus = new Bonus(x,y,1); // defalut radius = 2 
 
         }
         private void GameOver()

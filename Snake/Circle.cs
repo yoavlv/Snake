@@ -11,7 +11,7 @@ namespace Snake
     {
         private float Radius;
 
-        public Circle(int x = 2, int y = 2, int radius = 0)
+        public Circle(int x = 2, int y = 2, int radius = 1)
         {
             X = x;
             Y = y;
@@ -20,16 +20,12 @@ namespace Snake
 
         public float Radius1 { get => Radius; set => Radius = value; }
 
-        public void DrawCircle(Graphics g)
+        public override void Draw(Graphics g)
         {
-            //SolidBrush br = new SolidBrush(Color.BlueViolet);
-            //Brush br = Brushes.BlueViolet;
-
-            //g.FillEllipse(br, X * Settings.Width , Y * Settings.Height, Settings.Width * Radius, Settings.Height * Radius);
-            Image Bon = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\bon.png");
-            PointF pp = new PointF(X * Settings.Width,
+            Image Burger = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\Burger.png");
+            PointF BugerP = new PointF(X * Settings.Width,
             Y * Settings.Height);
-            g.DrawImage(Bon, pp);
+            g.DrawImage(Burger, BugerP);
         }
     }
 }

@@ -7,22 +7,47 @@ using System.Drawing;
 
 namespace Snake
 {
-    class Point
+    public abstract class Point
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        private int x;
+        private int y;
 
+
+        public int X
+        {
+            get
+            {
+                return x;
+            }
+            set
+            {
+                x = value;
+            }
+        }
+
+        public int Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                y = value;
+            }
+        }
         public Point()
         {
-            X = 0;
-            Y = 0;
+            x = 0;
+            y = 0;
         }
-        public Point(int x , int y)
+        public Point(int X , int Y)
         {
-            X = x;
-            Y = y;
+            x = X;
+            y = Y;
         }
-    
+        public abstract void Draw(Graphics g);
+
 
     }
 }
