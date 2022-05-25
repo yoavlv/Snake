@@ -27,7 +27,7 @@ namespace Snake
 
         public override void Draw(Graphics g)
         {
-            Image BlackHole = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\BlackHole2.png");
+            Image BlackHole = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\img\BlackHole2.png");
             if (Rows > 0 && Cols > 0)
             {
                 Bitmap BlachHoleB = new Bitmap(BlackHole, new Size(16 * Rows, 16 * Cols));

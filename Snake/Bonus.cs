@@ -18,7 +18,7 @@ namespace Snake
         public override void Draw(Graphics g)
         {
      
-            Image Bon = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\bon.png");
+            Image Bon = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\img\bon.png");
             PointF pp = new PointF(X * Settings.Width,
             Y * Settings.Height);
             g.DrawImage(Bon, pp);

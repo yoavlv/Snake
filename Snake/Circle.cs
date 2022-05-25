@@ -22,7 +22,7 @@ namespace Snake
 
         public override void Draw(Graphics g)
         {
-            Image Burger = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\Burger.png");
+            Image Burger = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\img\Burger.png");
             PointF BugerP = new PointF(X * Settings.Width,
             Y * Settings.Height);
             g.DrawImage(Burger, BugerP);

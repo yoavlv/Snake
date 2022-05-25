@@ -274,7 +274,7 @@ namespace Snake
 
             for (int i = 0; i < Wall.Count; i++)
             {
-                Image fence = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\fance.png");
+                Image fence = Image.FromFile(@"C:\Users\yoavl\source\repos\Snake\Snake\img\fance.png");
                 PointF pp = new PointF(Wall[i].X * Settings.Width,
                 Wall[i].Y * Settings.Height);
                 canvas.DrawImage(fence, pp);
